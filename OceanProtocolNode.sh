@@ -54,7 +54,7 @@ function restart_node {
     echo -e "${BLUE}Перезапускаем ocean-node и typesense контейнеры...${NC}"
     docker restart ocean-node
     docker restart typesense
-    sleep 15
+    sleep 7
     echo -e "${BLUE}ocean-node и typesense контейнеры перезапущены.${NC}"
 }
 
