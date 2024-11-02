@@ -63,6 +63,8 @@ function view_logs {
 function remove_node {
     echo -e "${BLUE}Удаляем Docker контейнеры и директорию...${NC}"
     docker-compose down --remove-orphans
+    docker rm typesense --force
+    docker volume rm ocean_typesense-data
     cd ..
     rm -rf ocean
     echo -e "${GREEN}Нода успешно удалена.${NC}"
