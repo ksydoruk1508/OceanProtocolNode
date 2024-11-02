@@ -51,8 +51,11 @@ function install_node {
 }
 
 function restart_node {
-    echo -e "${BLUE}Перезапускаем Docker контейнеры...${NC}"
-    docker-compose -f docker-compose.yml restart
+    echo -e "${BLUE}Перезапускаем ocean-node и typesense контейнеры...${NC}"
+    docker restart ocean-node
+    docker restart typesense
+    sleep 15
+    echo -e "${BLUE}ocean-node и typesense контейнеры перезапущены.${NC}"
 }
 
 function view_logs {
