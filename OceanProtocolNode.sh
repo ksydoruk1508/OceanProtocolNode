@@ -65,9 +65,9 @@ function remove_node {
     if [ -d "ocean" ]; then
         cd ocean
         if [ -f "docker-compose.yml" ]; then
-            docker-compose -f docker-compose.yml down --remove-orphans
-            docker rm typesense --force
-            docker volume rm ocean_typesense-data
+            docker-compose -f docker-compose.yml down --remove-orphans || echo -e "${RED}Ошибка при остановке Docker контейнеров.${NC}"
+            docker rm typesense --force 2>/dev/null || echo -e "${RED}Контейнер typesense не найден.${NC}"
+            docker volume rm ocean_typesense-data 2>/dev/null || echo -e "${RED}Том ocean_typesense-data не найден.${NC}"
             cd ..
             rm -rf ocean
             echo -e "${GREEN}Нода успешно удалена.${NC}"
