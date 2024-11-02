@@ -44,6 +44,9 @@ function install_node {
     echo -e "${BLUE}Скачиваем и устанавливаем Ocean ноду...${NC}"
     curl -O https://raw.githubusercontent.com/oceanprotocol/ocean-node/main/scripts/ocean-node-quickstart.sh && chmod +x ocean-node-quickstart.sh && ./ocean-node-quickstart.sh
 
+    echo -e "${BLUE}Запускаем Docker контейнеры...${NC}"
+    docker-compose up -d
+
     echo -e "${GREEN}Нода успешно установлена и запущена!${NC}"
 }
 
