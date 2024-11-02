@@ -45,14 +45,14 @@ function install_node {
     curl -O https://raw.githubusercontent.com/oceanprotocol/ocean-node/main/scripts/ocean-node-quickstart.sh && chmod +x ocean-node-quickstart.sh && ./ocean-node-quickstart.sh
 
     echo -e "${BLUE}Запускаем Docker контейнеры...${NC}"
-    docker-compose up -d
+    docker-compose -f docker-compose.yml up -d
 
     echo -e "${GREEN}Нода успешно установлена и запущена!${NC}"
 }
 
 function restart_node {
     echo -e "${BLUE}Перезапускаем Docker контейнеры...${NC}"
-    docker-compose restart
+    docker-compose -f docker-compose.yml restart
 }
 
 function view_logs {
@@ -62,12 +62,21 @@ function view_logs {
 
 function remove_node {
     echo -e "${BLUE}Удаляем Docker контейнеры и директорию...${NC}"
-    docker-compose down --remove-orphans
-    docker rm typesense --force
-    docker volume rm ocean_typesense-data
-    cd ..
-    rm -rf ocean
-    echo -e "${GREEN}Нода успешно удалена.${NC}"
+    if [ -d "ocean" ]; then
+        cd ocean
+        if [ -f "docker-compose.yml" ]; then
+            docker-compose -f docker-compose.yml down --remove-orphans
+            docker rm typesense --force
+            docker volume rm ocean_typesense-data
+            cd ..
+            rm -rf ocean
+            echo -e "${GREEN}Нода успешно удалена.${NC}"
+        else
+            echo -e "${RED}Файл docker-compose.yml не найден. Убедитесь, что вы в правильной директории.${NC}"
+        fi
+    else
+        echo -e "${RED}Директория ocean не найдена.${NC}"
+    fi
 }
 
 function main_menu {
