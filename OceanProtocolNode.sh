@@ -108,7 +108,7 @@ function main_menu {
         echo -e "${CYAN}4. Удаление ноды${NC}"
         echo -e "${CYAN}5. Выход${NC}"
        
-        echo -e "${YELLOW}Введите номер:${NC} "
+        echo -e "${YELLOW}Введите номер действия:${NC} "
         read choice
         case $choice in
             1) install_node ;;
