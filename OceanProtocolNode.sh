@@ -1,4 +1,4 @@
-#!/bin/bash
+ционал#!/bin/bash
 
 # Цвета текста
 RED='\033[0;31m'
@@ -99,6 +99,17 @@ function remove_node {
     fi
 }
 
+function setup_auto_restart {
+    echo -e "${BLUE}Устанавливаем cron для автоматического перезапуска контейнеров...${NC}"
+    sudo apt install cron -y
+
+    echo -e "${BLUE}Добавляем задания в cron для автоматического перезапуска...${NC}"
+    (crontab -l 2>/dev/null; echo "0 */6 * * * docker restart ocean-node") | crontab -
+    (crontab -l 2>/dev/null; echo "0 */10 * * * docker restart typesense") | crontab -
+
+    echo -e "${GREEN}Задания на автоматический перезапуск контейнеров добавлены в cron.${NC}"
+}
+
 function main_menu {
     while true; do
         echo -e "${YELLOW}Выберите действие:${NC}"
@@ -106,8 +117,9 @@ function main_menu {
         echo -e "${CYAN}2. Рестарт ноды${NC}"
         echo -e "${CYAN}3. Просмотр логов${NC}"
         echo -e "${CYAN}4. Удаление ноды${NC}"
-        echo -e "${CYAN}5. Перейти к другим нодам${NC}"
-        echo -e "${CYAN}6. Выход${NC}"
+        echo -e "${CYAN}5. Установка скрипта на автоматический перезапуск (опционально)${NC}"
+        echo -e "${CYAN}6. Перейти к другим нодам${NC}"
+        echo -e "${CYAN}7. Выход${NC}"
        
         echo -e "${YELLOW}Введите номер действия:${NC} "
         read choice
@@ -116,9 +128,9 @@ function main_menu {
             2) restart_node ;;
             3) view_logs ;;
             4) remove_node ;;
-            5) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh
-            ;;
-            6) break ;;
+            5) setup_auto_restart ;;
+            6) wget -q -O Ultimative_Node_Installer.sh https://raw.githubusercontent.com/ksydoruk1508/Ultimative_Node_Installer/main/Ultimative_Node_Installer.sh && sudo chmod +x Ultimative_Node_Installer.sh && ./Ultimative_Node_Installer.sh ;;
+            7) break ;;
             *) echo -e "${RED}Неверный выбор, попробуйте снова.${NC}" ;;
         esac
     done
